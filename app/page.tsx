@@ -1,9 +1,20 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 
+// Landing page with emerald + slate base and amber accent
+// Distinct layout from Deprisk: sticky left sidebar + right content
+
 type Track = "phd" | "eng";
+
+type Project = {
+  title: string;
+  blurb: string;
+  tags: string[];
+  links: { href: string; label: string; external?: boolean }[];
+  wip?: boolean;
+  note?: string;
+};
 
 export default function HomePage() {
   const [track, setTrack] = useState<Track>("phd");
@@ -25,16 +36,22 @@ export default function HomePage() {
     ],
   };
 
-  const projects = [
+  const projects: Project[] = [
     {
       title: "Maastricht Deprisk — incident depression predictor",
       blurb:
-        "End-to-end ML pipeline with FastAPI inference and a public Next.js demo. XGBoost + SHAP; AUROC≈0.71 on held-out cohort.",
+        "End-to-end ML pipeline with FastAPI inference and a public Next.js demo. XGBoost + SHAP; AUROC ≈ 0.71 on a held-out cohort.",
       tags: ["XGBoost", "FastAPI", "Next.js", "SHAP", "CI/CD"],
       links: [
-        { href: "https://github.com/mehdimkia/maastrichtDeprisk", label: "Source" },
+        {
+          href: "https://github.com/mehdimkia/maastrichtDeprisk",
+          label: "Source",
+          external: true,
+        },
         { href: "/projects/deprisk", label: "Case study" },
       ],
+      note:
+        "Research prototype for educational purposes — not medical advice and not a clinical tool.",
     },
     {
       title: "Sleep ↔ Depression (Thesis, The Maastricht Study)",
@@ -49,8 +66,21 @@ export default function HomePage() {
         "Interactive Power BI dashboard with cohort characteristics and model performance summaries.",
       tags: ["Power BI", "Data viz"],
       links: [{ href: "/powerbi", label: "Preview" }],
+      wip: true,
     },
   ];
+
+  const activeChip = (isActive: boolean) =>
+    `px-3 py-1 text-xs font-medium rounded-full ${
+      isActive
+        ? "bg-emerald-50 text-emerald-700 ring-1 ring-amber-300/70 dark:bg-emerald-900/30 dark:text-emerald-300"
+        : ""
+    }`;
+
+  const tagClass = (t: string) =>
+    ["SHAP", "Power BI"].includes(t)
+      ? "rounded-full border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300"
+      : "rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300";
 
   return (
     <main className="min-h-screen bg-white text-slate-900 dark:bg-slate-950 dark:text-slate-100">
@@ -71,8 +101,8 @@ export default function HomePage() {
             </div>
 
             <p className="mt-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
-              I build transparent models and clean software at the intersection of sleep epidemiology
-              and machine learning.
+              I build transparent models and clean software at the intersection
+              of sleep epidemiology and machine learning.
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3">
@@ -84,7 +114,7 @@ export default function HomePage() {
               </a>
               <a
                 href="/files/CV_Mehdi_Mirkia.pdf"
-                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/50"
+                className="rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-amber-400/60 dark:border-slate-700 dark:hover:bg-slate-800/50"
               >
                 Download CV
               </a>
@@ -98,17 +128,13 @@ export default function HomePage() {
               <div className="inline-flex rounded-full border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">
                 <button
                   onClick={() => setTrack("phd")}
-                  className={`px-3 py-1 text-xs font-medium rounded-full ${
-                    track === "phd" ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" : ""
-                  }`}
+                  className={activeChip(track === "phd")}
                 >
                   PhD
                 </button>
                 <button
                   onClick={() => setTrack("eng")}
-                  className={`px-3 py-1 text-xs font-medium rounded-full ${
-                    track === "eng" ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300" : ""
-                  }`}
+                  className={activeChip(track === "eng")}
                 >
                   Engineering
                 </button>
@@ -134,11 +160,18 @@ export default function HomePage() {
               >
                 Email
               </a>
-              <a href="https://github.com/mehdimkia" className="text-sm underline-offset-2 hover:underline">
+              <a
+                href="https://github.com/mehdimkia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm underline-offset-2 hover:underline"
+              >
                 GitHub
               </a>
               <a
                 href="https://www.linkedin.com/in/mehdimirkia"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-sm underline-offset-2 hover:underline"
               >
                 LinkedIn
@@ -149,14 +182,14 @@ export default function HomePage() {
 
         {/* === RIGHT CONTENT === */}
         <div className="space-y-12">
-          {/* Hero headline (left-aligned, simpler) */}
-          <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 to-white p-8 dark:border-slate-800 dark:from-slate-900 dark:to-slate-950">
+          {/* Hero headline (left-aligned, subtle amber tint) */}
+          <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 via-amber-50 to-white p-8 dark:border-slate-800 dark:from-slate-900 dark:via-amber-900/10 dark:to-slate-950">
             <h2 className="text-3xl font-black sm:text-4xl">
               Building useful models & shipping working demos.
             </h2>
             <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">
-              Portfolio focused on depression risk modeling, sleep epidemiology, and modern ML
-              engineering practices.
+              Portfolio focused on depression risk modeling, sleep
+              epidemiology, and modern ML engineering practices.
             </p>
           </section>
 
@@ -176,14 +209,18 @@ export default function HomePage() {
                   <div className="border-l-4 border-emerald-500 p-5 sm:p-6">
                     <h4 className="text-lg font-semibold group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
                       {p.title}
+                      {p.wip && (
+                        <span className="ml-2 inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-800">
+                          WIP
+                        </span>
+                      )}
                     </h4>
-                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{p.blurb}</p>
+                    <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                      {p.blurb}
+                    </p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300"
-                        >
+                        <span key={t} className={tagClass(t)}>
                           {t}
                         </span>
                       ))}
@@ -191,14 +228,25 @@ export default function HomePage() {
                     <div className="mt-4 flex flex-wrap gap-4">
                       {p.links.map((l) => (
                         <a
-                          key={l.href}
+                          key={l.href + l.label}
                           href={l.href}
-                          className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300"
+                          {...(l.external
+                            ? {
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                              }
+                            : {})}
+                          className="text-sm font-medium text-emerald-700 hover:text-amber-700 hover:underline dark:text-emerald-300 dark:hover:text-amber-300"
                         >
                           {l.label} →
                         </a>
                       ))}
                     </div>
+                    {p.note && (
+                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                        {p.note}
+                      </p>
+                    )}
                   </div>
                 </article>
               ))}
@@ -206,12 +254,17 @@ export default function HomePage() {
           </section>
 
           {/* About */}
-          <section id="about" className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60">
+          <section
+            id="about"
+            className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60"
+          >
             <h3 className="text-2xl font-bold">About</h3>
             <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">
-              Psychotherapist & public-health specialist turned ML practitioner. Recent double master’s in
-              European Public Health. I focus on interpretable models, clean data pipelines, and practical
-              demos. Open to PhD supervision, research collaborations, and ML/AI engineering roles.
+              Psychotherapist & public-health specialist turned ML
+              practitioner. Recent double master’s in European Public Health. I
+              focus on interpretable models, clean data pipelines, and
+              practical demos. Open to PhD supervision, research collaborations,
+              and ML/AI engineering roles.
             </p>
           </section>
 
@@ -231,7 +284,9 @@ export default function HomePage() {
                 </a>
                 <a
                   href="https://www.linkedin.com/in/mehdimirkia"
-                  className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium hover:bg-slate-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-amber-400/60 dark:border-slate-700 dark:hover:bg-slate-800/40"
                 >
                   LinkedIn
                 </a>
