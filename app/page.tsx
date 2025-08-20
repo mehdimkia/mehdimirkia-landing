@@ -388,7 +388,7 @@ export default function HomePage() {
           {/* Contact - differentiated CTAs */}
           <section id="contact" className="pb-10">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
-              <h3 className="mb-6 text-center text-xl font-semibold">Let's connect</h3>
+            <h3 className="mb-6 text-center text-xl font-semibold">Let&apos;s connect</h3>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
                   <h4 className="flex items-center gap-2 font-semibold">💼 For Tech Teams</h4>
