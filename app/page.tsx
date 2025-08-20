@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import React, { useState } from 'react';
 
 type Track = "phd" | "eng";
 
@@ -12,10 +12,10 @@ type Project = {
   tags: string[];
   links: { href: string; label: string; external?: boolean }[];
   note?: string;
-  metrics?: Metric[]; // project-specific metrics
+  metrics?: Metric[];
 };
 
-/* ---------- Reusable metrics bar (with size + info icon tooltip) ---------- */
+/* ---------- Reusable metrics bar component ---------- */
 function MetricsBar({
   items,
   className = "",
@@ -45,10 +45,8 @@ function MetricsBar({
             <div className={`${value} text-emerald-600`}>{m.value}</div>
             <div className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400`}>
               <span>{m.label}</span>
-
               {m.tooltip && (
                 <span className="relative inline-flex">
-                  {/* the trigger */}
                   <button
                     type="button"
                     aria-label={`About ${m.label}`}
@@ -57,7 +55,6 @@ function MetricsBar({
                   >
                     i
                   </button>
-                  {/* the tooltip */}
                   <span
                     role="tooltip"
                     className="pointer-events-none absolute left-1/2 top-full z-20 hidden -translate-x-1/2 whitespace-nowrap rounded-md bg-slate-800 px-2 py-1 text-[10px] text-white shadow-lg mt-2 peer-hover:block peer-focus-visible:block dark:bg-slate-700"
@@ -77,106 +74,127 @@ function MetricsBar({
 export default function HomePage() {
   const [track, setTrack] = useState<Track>("phd");
 
-  // Quick-scan skills for two audiences
+  // Updated skills based on actual experience
   const skills: Record<Track, string[]> = {
     phd: [
-      "🔬 Longitudinal cohort analysis (N>8000)",
-      "📊 Survival analysis (Cox PH, Fine-Gray)",
-      "🧠 Mental health epidemiology",
-      "📝 Published author & peer reviewer",
-      "🔄 Open science (Git, Docker, R Markdown)",
+      "📊 Longitudinal cohort analysis (N=9,000+)",
+      "📈 Cox PH & survival analysis with splines",
+      "🧠 Mental health epidemiology & RCT analysis",
+      "📝 Manuscript in preparation for peer review",
+      "🔬 R, Python, REDCap, Git version control",
     ],
     eng: [
-      "🚀 Production ML (FastAPI, Docker, CI/CD)",
-      "💻 Full-stack (Next.js, TypeScript, PostgreSQL)",
-      "🤖 ML (XGBoost, SHAP, MLflow)",
-      "☁️ Cloud deployment (AWS, Vercel)",
-      "🔎 Monitoring & logging (basic)",
+      "🚀 FastAPI + Docker deployment (in progress)",
+      "💻 Full-stack (React, Next.js, TypeScript)",
+      "🤖 ML (XGBoost, AUROC 0.71, SHAP)",
+      "☁️ AWS Elastic Beanstalk, Vercel, CI/CD",
+      "📊 Power BI dashboards & data viz",
     ],
   };
 
-  /* ---------- Personal metrics (under hero) ---------- */
+  /* ---------- Personal metrics (corrected) ---------- */
   const personalMetrics: Metric[] = [
-    { value: "2", label: "Publications", tooltip: "Peer-reviewed or equivalent; update as needed." },
-    { value: "7+ yrs", label: "Psychiatric epidemiology", tooltip: "Experience across research/clinical contexts." },
-    { value: "2", label: "Master’s degrees", tooltip: "Double MSc (Maastricht & Sheffield)." },
-    { value: "3+", label: "Projects shipped", tooltip: "Public demos/dashboards released." },
+    { value: "9,000+", label: "Cohort analyzed", tooltip: "The Maastricht Study participants" },
+    { value: "5+ yrs", label: "Software dev", tooltip: "Full-stack development experience" },
+    { value: "0.71", label: "AUROC achieved", tooltip: "Depression prediction model performance" },
+    { value: "2", label: "Master's degrees", tooltip: "MPH (UCD) + MSc Public Health (Maastricht, ongoing)" },
   ];
 
-  /* ---------- Deprisk project metrics ---------- */
+  /* ---------- Deprisk project metrics (corrected) ---------- */
   const depriskMetrics: Metric[] = [
-    { value: "0.71", label: "AUROC", tooltip: "Area under the ROC curve on held-out cohort." },
-    { value: "8,000+", label: "Participants", tooltip: "Sample size from The Maastricht Study subset." },
-    { value: "7 years", label: "Follow-up", tooltip: "Longitudinal observation horizon." },
+    { value: "0.71", label: "AUROC", tooltip: "Area under the ROC curve on held-out cohort" },
+    { value: "9,000+", label: "Participants", tooltip: "Sample size from The Maastricht Study" },
+    { value: "7 years", label: "Follow-up", tooltip: "Longitudinal observation horizon" },
   ];
 
   const projects: Project[] = [
     {
-      title: "Maastricht Deprisk – incident depression predictor",
+      title: "Maastricht Deprisk – ML Depression Risk Predictor",
       blurb:
-        "End-to-end ML pipeline with FastAPI inference and a public Next.js demo. XGBoost + SHAP; AUROC ≈ 0.71 on a held-out cohort of 8,000+ participants.",
-      tags: ["XGBoost", "FastAPI", "Next.js", "SHAP", "CI/CD"],
+        "End-to-end ML pipeline with FastAPI backend (deployment in progress). XGBoost model achieving AUROC 0.71 on 9,000+ participant cohort from The Maastricht Study.",
+      tags: ["XGBoost", "FastAPI", "Docker", "SHAP", "CI/CD"],
       links: [
-        { href: "https://github.com/mehdimkia/maastrichtDeprisk", label: "Source", external: true },
-        { href: "https://deprisk-demo.vercel.app", label: "Live demo", external: true },
-        { href: "/projects/deprisk", label: "Case study" },
+        { href: "https://github.com/mehdimkia/maastrichtDeprisk", label: "GitHub", external: true },
+        { href: "#", label: "Demo (coming soon)" },
       ],
-      note: "Research prototype for educational purposes — not medical advice and not a clinical tool.",
+      note: "Research prototype for educational purposes – not for clinical use",
       metrics: depriskMetrics,
     },
     {
-      title: "Sleep ↔ Depression (Thesis, The Maastricht Study)",
+      title: "Social Platform – Khaterak",
       blurb:
-        "Seven-year longitudinal analysis of sleep duration & fragmentation predicting depressive symptoms.",
-      tags: ["Cohort study", "Cox PH", "Restricted splines", "R"],
-      links: [{ href: "/files/thesis.pdf", label: "PDF" }],
+        "Co-founded and developed social app serving 10,000+ MAU. Built scalable backend with OAuth authentication and optimized performance by 40%.",
+      tags: ["PHP", "Python", "OAuth", "PostgreSQL", "Agile"],
+      links: [],
+      note: "2015-2017: Full-stack development & system architecture",
     },
     {
-      title: "Cohort Insights dashboard",
+      title: "Sleep ↔ Depression Longitudinal Analysis (Thesis)",
       blurb:
-        "Interactive Power BI dashboard with cohort characteristics and model performance summaries.",
-      tags: ["Power BI", "Data viz", "ETL"],
-      links: [{ href: "/powerbi", label: "Preview" }],
+        "Seven-year cohort study using Cox PH models with restricted cubic splines to capture non-linear effects of sleep duration on depression risk. Manuscript in preparation.",
+      tags: ["Cox PH", "R", "Survival Analysis", "Splines"],
+      links: [],
+    },
+    {
+      title: "Cohort Insights Dashboard",
+      blurb:
+        "Interactive Power BI dashboard visualizing cohort characteristics and ML model performance metrics for The Maastricht Study.",
+      tags: ["Power BI", "Data Viz", "ETL"],
+      links: [],
     },
   ];
 
   const publications = [
     {
-      role: "First Author",
+      role: "In Preparation",
       title:
-        "Sleep duration and fragmentation in relation to incident depression: A 7-year cohort study",
-      venue: "Journal of Psychiatric Research",
-      year: "2024",
+        "Sleep Duration and Sleep Fragmentation as Predictors of Incident Depressive Symptoms",
+      venue: "Target: Journal of Sleep Health",
+      year: "2025",
       link: "#",
     },
     {
-      role: "Translator",
-      title: "Mental Health Assessment Tools: A Practical Guide",
-      venue: "Book (Persian → English)",
-      year: "2019",
+      role: "Conference Paper",
+      title: "Psychological Aid in Humanitarian Response to Natural Crisis",
+      venue: "1st Int. Conf. Psychology & Social Sciences, Babol",
+      year: "2022",
+      link: "https://civilica.com/doc/1698998",
+    },
+    {
+      role: "Invited Talk",
+      title: "New Concepts of Schema Therapy",
+      venue: "ASLATES Conference, Mexico City",
+      year: "2021",
       link: "#",
     },
   ];
 
   const education = [
     {
-      degree: "Double MSc European Public Health",
-      schools: "Maastricht University & Sheffield University",
-      years: "2022–2024",
-      highlight: "Thesis: Sleep-Depression Longitudinal Analysis",
+      degree: "MSc European Public Health (Europubhealth+)",
+      schools: "Maastricht University (current) & UCD (completed)",
+      years: "2023–2025",
+      highlight: "Erasmus Mundus Scholar (top 1% worldwide) • First-Class Honours",
     },
     {
-      degree: "MSc Clinical Psychology",
-      schools: "University of Tehran",
-      years: "2015–2018",
-      highlight: "Licensed Psychotherapist",
+      degree: "BSc Psychology",
+      schools: "Payam Noor University",
+      years: "2017–2022",
+      highlight: "First-Class Honours (17.44/20)",
     },
     {
-      degree: "BSc Software Engineering",
-      schools: "Mälardalen University, Sweden",
-      years: "2010–2014",
-      highlight: "Focus: Data Structures & Algorithms",
+      degree: "Computer Science Foundation",
+      schools: "Sharif University of Technology & University of Gothenburg",
+      years: "2008–2013",
+      highlight: "Software Engineering & Management track",
     },
+  ];
+
+  const certifications = [
+    "Data Science R Certificate - Johns Hopkins",
+    "AI for Medicine - Stanford (2025)",
+    "Qualitative Research Methods - Emory",
+    "AWS ML Certification (in progress)",
   ];
 
   const researchInterests = [
@@ -205,27 +223,27 @@ export default function HomePage() {
               <div className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white font-bold">MM</div>
               <div>
                 <h1 className="text-xl font-extrabold">Mehdi Mirkia</h1>
-                <p className="text-sm text-slate-600 dark:text-slate-300">ML Engineer × Public Health</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">ML Engineer × Full Stack Dev</p>
               </div>
             </div>
 
             <p className="mt-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
-              Building interpretable ML models for mental health. Psychotherapist turned data scientist with 7+ years in psychiatric epidemiology.
+              Building interpretable ML models for healthcare. 5+ years software development, 4+ years research experience. Erasmus Mundus Scholar developing production-ready predictive systems.
             </p>
 
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-              Also published as: Max Mirkia • M. Mirkialangaroodi •{" "}
-              <a href="/about-my-name" className="underline hover:text-emerald-600">Why different names?</a>
+              Also published as: M. Mirkialangaroodi •{" "}
+              <a href="#" className="underline hover:text-emerald-600">About variations</a>
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3">
               <a
-                href="https://deprisk-demo.vercel.app"
+                href="https://github.com/mehdimkia/maastrichtDeprisk"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="rounded-md bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:from-emerald-700 hover:to-teal-700"
               >
-                Try live demo
+                View on GitHub
               </a>
               <a
                 href="#projects"
@@ -259,7 +277,7 @@ export default function HomePage() {
 
             {/* Socials */}
             <div className="mt-6 flex gap-3">
-              <a href="mailto:mehdimirkia@gmail.com" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
+              <a href="mailto:mirkia.mehdi@gmail.com" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
                 Email
               </a>
               <a href="https://github.com/mehdimkia" target="_blank" rel="noopener noreferrer" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
@@ -274,13 +292,13 @@ export default function HomePage() {
 
         {/* === RIGHT CONTENT === */}
         <div className="space-y-12">
-          {/* HERO — landing page */}
+          {/* HERO */}
           <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 via-amber-50 to-white p-8 dark:border-slate-800 dark:from-slate-900 dark:via-amber-900/10 dark:to-slate-950">
             <h2 className="text-3xl font-black sm:text-4xl">
-              Building useful models & shipping working demos.
+              From research to production: ML models that work.
             </h2>
             <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">
-              ML Engineer & Public Health Researcher • 7 years in psychiatric epidemiology • Published author • Double MSc European Public Health
+              ML Engineer & Public Health Researcher • 5+ years software development • 4+ years research experience • Erasmus Mundus Scholar • Building predictive models for mental health
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">🇳🇱 Netherlands-based</span>
@@ -295,7 +313,7 @@ export default function HomePage() {
           {/* Projects */}
           <section id="projects">
             <h3 className="text-2xl font-bold">Featured projects</h3>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Real work, shipped.</p>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Production-ready systems & research implementations</p>
             <div className="mt-6 space-y-5">
               {projects.map((p) => (
                 <article key={p.title} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900/70">
@@ -309,20 +327,22 @@ export default function HomePage() {
                         </span>
                       ))}
                     </div>
-                    <div className="mt-4 flex flex-wrap gap-4">
-                      {p.links.map((l) => (
-                        <a
-                          key={l.href + l.label}
-                          href={l.href}
-                          className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300"
-                          {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        >
-                          {l.label} →
-                        </a>
-                      ))}
-                    </div>
+                    {p.links.length > 0 && (
+                      <div className="mt-4 flex flex-wrap gap-4">
+                        {p.links.map((l) => (
+                          <a
+                            key={l.href + l.label}
+                            href={l.href}
+                            className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300"
+                            {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                          >
+                            {l.label} →
+                          </a>
+                        ))}
+                      </div>
+                    )}
 
-                    {/* Project-specific metrics (smaller) */}
+                    {/* Project-specific metrics */}
                     {p.metrics && <MetricsBar items={p.metrics} className="mt-4" size="sm" />}
 
                     {p.note && <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{p.note}</p>}
@@ -334,7 +354,7 @@ export default function HomePage() {
 
           {/* Publications */}
           <section id="publications" className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60">
-            <h3 className="text-2xl font-bold">Publications</h3>
+            <h3 className="text-2xl font-bold">Publications & Presentations</h3>
             <div className="mt-4 space-y-4">
               {publications.map((pub) => (
                 <div key={pub.title} className="border-l-2 border-emerald-500 pl-4">
@@ -373,6 +393,18 @@ export default function HomePage() {
             </div>
           </section>
 
+          {/* Certifications */}
+          <section className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/60">
+            <h3 className="text-xl font-bold">Certifications & Training</h3>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {certifications.map((cert) => (
+                <span key={cert} className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                  {cert}
+                </span>
+              ))}
+            </div>
+          </section>
+
           {/* Research Interests */}
           <section className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900/60">
             <h3 className="text-xl font-bold">Research interests</h3>
@@ -388,28 +420,28 @@ export default function HomePage() {
           {/* Contact - differentiated CTAs */}
           <section id="contact" className="pb-10">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
-            <h3 className="mb-6 text-center text-xl font-semibold">Let&apos;s connect</h3>
+              <h3 className="mb-6 text-center text-xl font-semibold">Let&apos;s connect</h3>
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
-                  <h4 className="flex items-center gap-2 font-semibold">💼 For Tech Teams</h4>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Looking for ML Engineer or full-stack roles</p>
+                  <h4 className="flex items-center gap-2 font-semibold">💻 For Tech Teams</h4>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">ML Engineer / Full-stack roles</p>
                   <div className="mt-3 space-y-2">
-                    <a href="/files/CV_Tech_Mehdi_Mirkia.pdf" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Download Tech CV (PDF)
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
+                      → Download ML/Data Science CV
                     </a>
-                    <a href="https://calendly.com/mehdimirkia/tech" target="_blank" rel="noopener noreferrer" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Schedule tech interview
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
+                      → Download Software Dev CV
                     </a>
                   </div>
                 </div>
                 <div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
                   <h4 className="flex items-center gap-2 font-semibold">🎓 For Research Groups</h4>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Open to PhD supervision & collaborations</p>
+                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">PhD positions & collaborations</p>
                   <div className="mt-3 space-y-2">
-                    <a href="/files/CV_Academic_Mehdi_Mirkia.pdf" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Download Academic CV (PDF)
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
+                      → Download Academic CV
                     </a>
-                    <a href="/files/research_statement.pdf" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
                       → Research statement
                     </a>
                   </div>
@@ -427,7 +459,7 @@ export default function HomePage() {
           </section>
 
           <footer className="border-t border-slate-200 py-6 text-center text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
-            © {new Date().getFullYear()} Mehdi Mirkia · Rotterdam, Netherlands
+            © {new Date().getFullYear()} Mehdi Mirkia · Limburg, Netherlands
           </footer>
         </div>
       </div>
