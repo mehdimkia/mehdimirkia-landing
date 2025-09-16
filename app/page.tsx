@@ -13,7 +13,9 @@ type Project = {
   links: { href: string; label: string; external?: boolean }[];
   note?: string;
   metrics?: Metric[];
-  bullets?: string[]; // NEW: optional bullets for quick highlights
+  bullets?: string[];
+  primary?: { href: string; label: string; external?: boolean };
+  live?: boolean;
 };
 
 /* ---------- Reusable metrics bar component ---------- */
@@ -47,9 +49,7 @@ function MetricsBar({
         >
           <div className={`${pad}`}>
             <div className={`${value} text-emerald-600`}>{m.value}</div>
-            <div
-              className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400`}
-            >
+            <div className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400`}>
               <span>{m.label}</span>
               {m.tooltip && (
                 <span className="relative inline-flex">
@@ -80,7 +80,6 @@ function MetricsBar({
 export default function HomePage() {
   const [track, setTrack] = useState<Track>('phd');
 
-  // Updated skills based on actual experience
   const skills: Record<Track, string[]> = {
     phd: [
       '📊 Longitudinal cohort analysis (N=9,000+)',
@@ -116,22 +115,19 @@ export default function HomePage() {
   const projects: Project[] = [
     {
       title: 'Maastricht Deprisk – ML Depression Risk Predictor',
+      live: true,
       blurb:
         'End-to-end ML pipeline with FastAPI backend + Next.js frontend. Containerized service runs on Azure Container Apps; live, non-clinical demo uses a tuned XGBoost model (AUROC 0.71) trained on 9,000+ participants from The Maastricht Study.',
       tags: [
-        'XGBoost',
-        'FastAPI',
-        'Next.js',
-        'Docker',
-        'Azure Container Apps',
-        'GitHub Actions',
-        'GHCR',
-        'Vercel',
-        'SHAP',
+        'XGBoost', 'FastAPI', 'Next.js', 'Docker', 'Azure Container Apps', 'GitHub Actions', 'GHCR', 'Vercel', 'SHAP',
       ],
+      primary: {
+        href: 'https://maastrichtdeprisk.mehdimirkia.com/',
+        label: 'Open live demo',
+        external: true,
+      },
       links: [
         { href: 'https://github.com/mehdimkia/maastrichtDeprisk', label: 'GitHub', external: true },
-        { href: 'https://maastrichtdeprisk.mehdimirkia.com/', label: 'Live demo', external: true },
       ],
       bullets: [
         'CI/CD: Actions builds → pushes to GHCR → deploys to ACA',
@@ -195,11 +191,12 @@ export default function HomePage() {
         'Further apart, closer again? Pandemic-era divergence and resilience in EU-27 border vs non-border life expectancy, 1995–2023',
       venue: 'v0.18 (2025)',
       year: '2025',
-      link: '#', // swap in your PDF/OSF link when ready
+      link: '#',
     },
     {
       role: 'In Preparation',
-      title: 'Sleep Duration and Sleep Fragmentation as Predictors of Incident Depressive Symptoms',
+      title:
+        'Sleep Duration and Sleep Fragmentation as Predictors of Incident Depressive Symptoms',
       venue: 'Target: Journal of Sleep Health',
       year: '2025',
       link: '#',
@@ -271,27 +268,21 @@ export default function HomePage() {
         <aside className="lg:sticky lg:top-8 lg:self-start">
           <section className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
             <div className="flex items-center gap-4">
-              <div className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white font-bold">
-                MM
-              </div>
+              <div className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white font-bold">MM</div>
               <div>
                 <h1 className="text-xl font-extrabold">Mehdi Mirkia</h1>
-                <p className="text-sm text-slate-600 dark:text-slate-300">
-                  ML Engineer × Full Stack Dev
-                </p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">ML Engineer × Full Stack Dev</p>
               </div>
             </div>
 
             <p className="mt-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
-              Building interpretable ML models for healthcare. 5+ years software development, 4+ years
-              research experience. Erasmus Mundus Scholar developing production-ready predictive systems.
+              Building interpretable ML models for healthcare. 5+ years software development, 4+ years research experience.
+              Erasmus Mundus Scholar developing production-ready predictive systems.
             </p>
 
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
               Also published as: M. Mirkialangaroodi •{' '}
-              <a href="#" className="underline hover:text-emerald-600">
-                About variations
-              </a>
+              <a href="#" className="underline hover:text-emerald-600">About variations</a>
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3">
@@ -317,19 +308,12 @@ export default function HomePage() {
                 Quick skills overview
               </span>
               <div className="inline-flex rounded-full border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">
-                <button onClick={() => setTrack('phd')} className={chip(track === 'phd')}>
-                  Research
-                </button>
-                <button onClick={() => setTrack('eng')} className={chip(track === 'eng')}>
-                  Engineering
-                </button>
+                <button onClick={() => setTrack('phd')} className={chip(track === 'phd')}>Research</button>
+                <button onClick={() => setTrack('eng')} className={chip(track === 'eng')}>Engineering</button>
               </div>
               <ul className="mt-3 space-y-2">
                 {skills[track].map((s) => (
-                  <li
-                    key={s}
-                    className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-slate-800 dark:bg-slate-900/70"
-                  >
+                  <li key={s} className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
                     {s}
                   </li>
                 ))}
@@ -338,26 +322,13 @@ export default function HomePage() {
 
             {/* Socials */}
             <div className="mt-6 flex gap-3">
-              <a
-                href="mailto:mirkia.mehdi@gmail.com"
-                className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
-              >
+              <a href="mailto:mirkia.mehdi@gmail.com" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
                 Email
               </a>
-              <a
-                href="https://github.com/mehdimkia"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
-              >
+              <a href="https://github.com/mehdimkia" target="_blank" rel="noopener noreferrer" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
                 GitHub
               </a>
-              <a
-                href="https://www.linkedin.com/in/mirkia"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
-              >
+              <a href="https://www.linkedin.com/in/mirkia" target="_blank" rel="noopener noreferrer" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
                 LinkedIn
               </a>
             </div>
@@ -370,19 +341,31 @@ export default function HomePage() {
           <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 via-amber-50 to-white p-8 dark:border-slate-800 dark:from-slate-900 dark:via-amber-900/10 dark:to-slate-950">
             <h2 className="text-3xl font-black sm:text-4xl">From research to production: ML models that work.</h2>
             <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">
-              ML Engineer & Public Health Researcher • 5+ years software development • 4+ years research
-              experience • Erasmus Mundus Scholar • Building predictive models for mental health
+              ML Engineer & Public Health Researcher • 5+ years software development • 4+ years research experience •
+              Erasmus Mundus Scholar • Building predictive models for mental health
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                🇳🇱 Netherlands-based
-              </span>
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                Open to remote
-              </span>
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
-                PhD-ready
-              </span>
+            {/* HERO CTAs */}
+            <div className="mt-5 flex flex-wrap gap-3">
+              <a
+                href="https://maastrichtdeprisk.mehdimirkia.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+              >
+                Try the live demo
+                <svg viewBox="0 0 20 20" aria-hidden="true" fill="currentColor" className="ml-1 h-4 w-4">
+                  <path d="M11 3h6v6h-2V6.414l-7.293 7.293-1.414-1.414L13.586 5H11V3z" />
+                  <path d="M5 5h4v2H7v6h6v-2h2v4H5V5z" />
+                </svg>
+              </a>
+              <a
+                href="https://github.com/mehdimkia/maastrichtDeprisk"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/50"
+              >
+                View code
+              </a>
             </div>
           </section>
 
@@ -404,54 +387,69 @@ export default function HomePage() {
                   <div className="border-l-4 border-emerald-500 p-5 sm:p-6">
                     <h4 className="text-lg font-semibold group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
                       {p.title}
+                      {p.live && (
+                        <span className="ml-2 inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-900/30 dark:text-emerald-300 dark:ring-emerald-800/60">
+                          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+                          LIVE
+                        </span>
+                      )}
                     </h4>
+
                     <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{p.blurb}</p>
+
                     <div className="mt-3 flex flex-wrap gap-2">
                       {p.tags.map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300"
-                        >
+                        <span key={t} className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300">
                           {t}
                         </span>
                       ))}
                     </div>
 
-                    {/* NEW: bullets */}
+                    {/* Bullets */}
                     {p.bullets && p.bullets.length > 0 && (
                       <ul className="mt-3 space-y-1 text-sm text-slate-700 dark:text-slate-300">
                         {p.bullets.map((b) => (
                           <li key={b} className="flex gap-2">
-                            <span>✅</span>
+                            <span aria-hidden="true">✅</span>
                             <span>{b}</span>
                           </li>
                         ))}
                       </ul>
                     )}
 
-                    {p.links.length > 0 && (
-                      <div className="mt-4 flex flex-wrap gap-4">
-                        {p.links.map((l) => (
-                          <a
-                            key={l.href + l.label}
-                            href={l.href}
-                            className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300"
-                            {...(l.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                          >
-                            {l.label} →
-                          </a>
-                        ))}
-                      </div>
-                    )}
+                    {/* Primary + secondary links */}
+                    <div className="mt-4 flex flex-wrap items-center gap-3">
+                      {p.primary && (
+                        <a
+                          href={p.primary.href}
+                          className="inline-flex items-center rounded-md bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
+                          {...(p.primary.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                          aria-label={`${p.title}: ${p.primary.label}`}
+                          title={`${p.title}: ${p.primary.label}`}
+                        >
+                          {p.primary.label}
+                          <svg viewBox="0 0 20 20" fill="currentColor" className="ml-1 h-4 w-4" aria-hidden="true">
+                            <path d="M11 3h6v6h-2V6.414l-7.293 7.293-1.414-1.414L13.586 5H11V3z" />
+                            <path d="M5 5h4v2H7v6h6v-2h2v4H5V5z" />
+                          </svg>
+                        </a>
+                      )}
+                      {p.links.map((l) => (
+                        <a
+                          key={l.href + l.label}
+                          href={l.href}
+                          className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300"
+                          {...(l.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                        >
+                          {l.label} →
+                        </a>
+                      ))}
+                    </div>
 
                     {/* Project-specific metrics */}
                     {p.metrics && <MetricsBar items={p.metrics} className="mt-4" size="sm" />}
 
-                    {p.note && (
-                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
-                        {p.note}
-                      </p>
-                    )}
+                    {p.note && <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{p.note}</p>}
                   </div>
                 </article>
               ))}
@@ -459,10 +457,7 @@ export default function HomePage() {
           </section>
 
           {/* Publications */}
-          <section
-            id="publications"
-            className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60"
-          >
+          <section id="publications" className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60">
             <h3 className="text-2xl font-bold">Publications & Presentations</h3>
             <div className="mt-4 space-y-4">
               {publications.map((pub) => (
@@ -512,10 +507,7 @@ export default function HomePage() {
             <h3 className="text-xl font-bold">Certifications & Training</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {certifications.map((cert) => (
-                <span
-                  key={cert}
-                  className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-                >
+                <span key={cert} className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
                   {cert}
                 </span>
               ))}
@@ -527,17 +519,14 @@ export default function HomePage() {
             <h3 className="text-xl font-bold">Research interests</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {researchInterests.map((interest) => (
-                <span
-                  key={interest}
-                  className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
-                >
+                <span key={interest} className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
                   {interest}
                 </span>
               ))}
             </div>
           </section>
 
-          {/* Contact - differentiated CTAs */}
+          {/* Contact */}
           <section id="contact" className="pb-10">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
               <h3 className="mb-6 text-center text-xl font-semibold">Let&apos;s connect</h3>
@@ -546,40 +535,24 @@ export default function HomePage() {
                   <h4 className="flex items-center gap-2 font-semibold">💻 For Tech Teams</h4>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">ML Engineer / Full-stack roles</p>
                   <div className="mt-3 space-y-2">
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Download ML/Data Science CV
-                    </a>
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Download Software Dev CV
-                    </a>
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Download ML/Data Science CV</a>
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Download Software Dev CV</a>
                   </div>
                 </div>
                 <div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
                   <h4 className="flex items-center gap-2 font-semibold">🎓 For Research Groups</h4>
                   <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">PhD positions & collaborations</p>
                   <div className="mt-3 space-y-2">
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Download Academic CV
-                    </a>
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">
-                      → Research statement
-                    </a>
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Download Academic CV</a>
+                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Research statement</a>
                   </div>
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-center gap-4">
-                <a
-                  href="mailto:mehdimirkia@gmail.com"
-                  className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
-                >
+                <a href="mailto:mehdimirkia@gmail.com" className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700">
                   Email me directly
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/mirkia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40"
-                >
+                <a href="https://www.linkedin.com/in/mirkia" target="_blank" rel="noopener noreferrer" className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40">
                   Message on LinkedIn
                 </a>
               </div>
