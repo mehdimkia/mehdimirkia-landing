@@ -353,7 +353,7 @@ export default function HomePage() {
                 GitHub
               </a>
               <a
-                href="https://www.linkedin.com/in/mehdimirkia"
+                href="https://www.linkedin.com/in/mirkia"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
@@ -575,7 +575,7 @@ export default function HomePage() {
                   Email me directly
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/mehdimirkia"
+                  href="https://www.linkedin.com/in/mirkia"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40"
