@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type Track = "phd" | "eng";
+type Track = 'phd' | 'eng';
 
 type Metric = { value: string; label: string; tooltip?: string };
 
@@ -13,37 +13,43 @@ type Project = {
   links: { href: string; label: string; external?: boolean }[];
   note?: string;
   metrics?: Metric[];
+  bullets?: string[]; // NEW: optional bullets for quick highlights
 };
 
 /* ---------- Reusable metrics bar component ---------- */
 function MetricsBar({
   items,
-  className = "",
-  size = "md",
+  className = '',
+  size = 'md',
 }: {
   items: Metric[];
   className?: string;
-  size?: "sm" | "md";
+  size?: 'sm' | 'md';
 }) {
   const cols =
     items.length === 2
-      ? "md:grid-cols-2"
+      ? 'md:grid-cols-2'
       : items.length === 3
-      ? "md:grid-cols-3"
-      : "md:grid-cols-4";
+      ? 'md:grid-cols-3'
+      : 'md:grid-cols-4';
 
-  const pad = size === "sm" ? "p-3" : "p-4";
-  const gap = size === "sm" ? "gap-3" : "gap-4";
-  const value = size === "sm" ? "text-xl font-extrabold" : "text-2xl font-bold";
-  const label = size === "sm" ? "text-[11px]" : "text-xs";
+  const pad = size === 'sm' ? 'p-3' : 'p-4';
+  const gap = size === 'sm' ? 'gap-3' : 'gap-4';
+  const value = size === 'sm' ? 'text-xl font-extrabold' : 'text-2xl font-bold';
+  const label = size === 'sm' ? 'text-[11px]' : 'text-xs';
 
   return (
     <div className={`grid grid-cols-2 ${cols} ${gap} ${className}`}>
       {items.map((m) => (
-        <div key={m.label} className="rounded-xl border border-slate-200 bg-white/50 text-center dark:border-slate-800">
+        <div
+          key={m.label}
+          className="rounded-xl border border-slate-200 bg-white/50 text-center dark:border-slate-800"
+        >
           <div className={`${pad}`}>
             <div className={`${value} text-emerald-600`}>{m.value}</div>
-            <div className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400`}>
+            <div
+              className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400`}
+            >
               <span>{m.label}</span>
               {m.tooltip && (
                 <span className="relative inline-flex">
@@ -72,145 +78,190 @@ function MetricsBar({
 }
 
 export default function HomePage() {
-  const [track, setTrack] = useState<Track>("phd");
+  const [track, setTrack] = useState<Track>('phd');
 
   // Updated skills based on actual experience
   const skills: Record<Track, string[]> = {
     phd: [
-      "📊 Longitudinal cohort analysis (N=9,000+)",
-      "📈 Cox PH & survival analysis with splines",
-      "🧠 Mental health epidemiology & RCT analysis",
-      "📝 Manuscript in preparation for peer review",
-      "🔬 R, Python, REDCap, Git version control",
+      '📊 Longitudinal cohort analysis (N=9,000+)',
+      '📈 Cox PH & survival analysis with splines',
+      '🧠 Mental health epidemiology & RCT analysis',
+      '📝 Manuscript in preparation for peer review',
+      '🔬 R, Python, REDCap, Git version control',
     ],
     eng: [
-      "🚀 FastAPI + Docker deployment (in progress)",
-      "💻 Full-stack (React, Next.js, TypeScript)",
-      "🤖 ML (XGBoost, AUROC 0.71, SHAP)",
-      "☁️ AWS Elastic Beanstalk, Vercel, CI/CD",
-      "📊 Power BI dashboards & data viz",
+      '🚀 FastAPI + Docker deployment (live on Azure Container Apps)',
+      '⚙️ CI/CD: GitHub Actions → GHCR → ACA',
+      '🔐 x-api-key auth + CORS allow-list',
+      '🌐 Next.js on Vercel (server route proxy)',
+      '🤖 ML (XGBoost, AUROC 0.71, SHAP)',
     ],
   };
 
-  /* ---------- Personal metrics (corrected) ---------- */
+  /* ---------- Personal metrics ---------- */
   const personalMetrics: Metric[] = [
-    { value: "9,000+", label: "Cohort analyzed", tooltip: "The Maastricht Study participants" },
-    { value: "5+ yrs", label: "Software dev", tooltip: "Full-stack development experience" },
-    { value: "0.71", label: "AUROC achieved", tooltip: "Depression prediction model performance" },
-    { value: "2", label: "Master's degrees", tooltip: "MPH (UCD) + MSc Public Health (Maastricht, ongoing)" },
+    { value: '9,000+', label: 'Cohort analyzed', tooltip: 'The Maastricht Study participants' },
+    { value: '5+ yrs', label: 'Software dev', tooltip: 'Full-stack development experience' },
+    { value: '0.71', label: 'AUROC achieved', tooltip: 'Depression prediction model performance' },
+    { value: '2', label: "Master's degrees", tooltip: 'MPH (UCD) + MSc Public Health (Maastricht, ongoing)' },
   ];
 
-  /* ---------- Deprisk project metrics (corrected) ---------- */
+  /* ---------- Deprisk project metrics ---------- */
   const depriskMetrics: Metric[] = [
-    { value: "0.71", label: "AUROC", tooltip: "Area under the ROC curve on held-out cohort" },
-    { value: "9,000+", label: "Participants", tooltip: "Sample size from The Maastricht Study" },
-    { value: "7 years", label: "Follow-up", tooltip: "Longitudinal observation horizon" },
+    { value: '0.71', label: 'AUROC', tooltip: 'Area under the ROC curve on held-out cohort' },
+    { value: '9,000+', label: 'Participants', tooltip: 'Sample size from The Maastricht Study' },
+    { value: '7 years', label: 'Follow-up', tooltip: 'Longitudinal observation horizon' },
   ];
 
   const projects: Project[] = [
     {
-      title: "Maastricht Deprisk – ML Depression Risk Predictor",
+      title: 'Maastricht Deprisk – ML Depression Risk Predictor',
       blurb:
-        "End-to-end ML pipeline with FastAPI backend (deployment in progress). XGBoost model achieving AUROC 0.71 on 9,000+ participant cohort from The Maastricht Study.",
-      tags: ["XGBoost", "FastAPI", "Docker", "SHAP", "CI/CD"],
-      links: [
-        { href: "https://github.com/mehdimkia/maastrichtDeprisk", label: "GitHub", external: true },
-        { href: "#", label: "Demo (coming soon)" },
+        'End-to-end ML pipeline with FastAPI backend + Next.js frontend. Containerized service runs on Azure Container Apps; live, non-clinical demo uses a tuned XGBoost model (AUROC 0.71) trained on 9,000+ participants from The Maastricht Study.',
+      tags: [
+        'XGBoost',
+        'FastAPI',
+        'Next.js',
+        'Docker',
+        'Azure Container Apps',
+        'GitHub Actions',
+        'GHCR',
+        'Vercel',
+        'SHAP',
       ],
-      note: "Research prototype for educational purposes – not for clinical use",
+      links: [
+        { href: 'https://github.com/mehdimkia/maastrichtDeprisk', label: 'GitHub', external: true },
+        { href: 'https://maastrichtdeprisk.mehdimirkia.com/', label: 'Live demo', external: true },
+      ],
+      bullets: [
+        'CI/CD: Actions builds → pushes to GHCR → deploys to ACA',
+        'Scale-to-zero, health checks, and Log Analytics for observability',
+        'x-api-key auth with server-side proxy in Next.js (no key in browser)',
+        'CORS allow-list; domain split ready (app/api subdomains)',
+      ],
+      note: 'Research prototype for educational purposes – not for clinical use',
       metrics: depriskMetrics,
     },
     {
-      title: "Social Platform – Khaterak",
+      title: 'EU-27 Border vs Non-border Life-Expectancy Convergence (1995–2023)',
       blurb:
-        "Co-founded and developed social app serving 10,000+ MAU. Built scalable backend with OAuth authentication and optimized performance by 40%.",
-      tags: ["PHP", "Python", "OAuth", "PostgreSQL", "Agile"],
-      links: [],
-      note: "2015-2017: Full-stack development & system architecture",
+        'Built a harmonised EU-27 NUTS-2 panel (NUTS-2016; 240 regions; 6,102 region-years) from Eurostat mortality/population data; estimated absolute β-convergence with TWFE and ran border event-study within countries. Pandemic caused a temporary σ-divergence, then re-convergence by 2023; border regions showed deeper dip and over-rebound.',
+      tags: ['R', 'TWFE', 'Event study', 'Eurostat', 'GIS'],
+      links: [
+        // Add links when available:
+        // { href: 'https://your-link-to-paper-or-osf', label: 'Working paper', external: true },
+        // { href: 'https://your-repo-link', label: 'Code (R)', external: true },
+      ],
+      metrics: [
+        { value: '240', label: 'Regions' },
+        { value: '6,102', label: 'Region-years' },
+        { value: '1995–2023', label: 'Span' },
+        { value: 'β −0.0054', label: 'Convergence (TWFE)' },
+      ],
+      bullets: [
+        'Anchor-2019 population weights; region-clustered SEs',
+        'Within-country β ≈ −0.0047; segmented σ(log-LE) trend',
+        'Border event-study: deeper 2020–21 dip, +0.13–0.18y over-rebound by 2023',
+      ],
     },
     {
-      title: "Sleep ↔ Depression Longitudinal Analysis (Thesis)",
+      title: 'Social Platform – Khaterak',
       blurb:
-        "Seven-year cohort study using Cox PH models with restricted cubic splines to capture non-linear effects of sleep duration on depression risk. Manuscript in preparation.",
-      tags: ["Cox PH", "R", "Survival Analysis", "Splines"],
+        'Co-founded and developed social app serving 10,000+ MAU. Built scalable backend with OAuth authentication and optimized performance by 40%.',
+      tags: ['PHP', 'Python', 'OAuth', 'PostgreSQL', 'Agile'],
+      links: [],
+      note: '2015-2017: Full-stack development & system architecture',
+    },
+    {
+      title: 'Sleep ↔ Depression Longitudinal Analysis (Thesis)',
+      blurb:
+        'Seven-year cohort study using Cox PH models with restricted cubic splines to capture non-linear effects of sleep duration on depression risk. Manuscript in preparation.',
+      tags: ['Cox PH', 'R', 'Survival Analysis', 'Splines'],
       links: [],
     },
     {
-      title: "Cohort Insights Dashboard",
+      title: 'Cohort Insights Dashboard',
       blurb:
-        "Interactive Power BI dashboard visualizing cohort characteristics and ML model performance metrics for The Maastricht Study.",
-      tags: ["Power BI", "Data Viz", "ETL"],
+        'Interactive Power BI dashboard visualizing cohort characteristics and ML model performance metrics for The Maastricht Study.',
+      tags: ['Power BI', 'Data Viz', 'ETL'],
       links: [],
     },
   ];
 
   const publications = [
     {
-      role: "In Preparation",
+      role: 'Working paper',
       title:
-        "Sleep Duration and Sleep Fragmentation as Predictors of Incident Depressive Symptoms",
-      venue: "Target: Journal of Sleep Health",
-      year: "2025",
-      link: "#",
+        'Further apart, closer again? Pandemic-era divergence and resilience in EU-27 border vs non-border life expectancy, 1995–2023',
+      venue: 'v0.18 (2025)',
+      year: '2025',
+      link: '#', // swap in your PDF/OSF link when ready
     },
     {
-      role: "Conference Paper",
-      title: "Psychological Aid in Humanitarian Response to Natural Crisis",
-      venue: "1st Int. Conf. Psychology & Social Sciences, Babol",
-      year: "2022",
-      link: "https://civilica.com/doc/1698998",
+      role: 'In Preparation',
+      title: 'Sleep Duration and Sleep Fragmentation as Predictors of Incident Depressive Symptoms',
+      venue: 'Target: Journal of Sleep Health',
+      year: '2025',
+      link: '#',
     },
     {
-      role: "Invited Talk",
-      title: "New Concepts of Schema Therapy",
-      venue: "ASLATES Conference, Mexico City",
-      year: "2021",
-      link: "#",
+      role: 'Conference Paper',
+      title: 'Psychological Aid in Humanitarian Response to Natural Crisis',
+      venue: '1st Int. Conf. Psychology & Social Sciences, Babol',
+      year: '2022',
+      link: 'https://civilica.com/doc/1698998',
+    },
+    {
+      role: 'Invited Talk',
+      title: 'New Concepts of Schema Therapy',
+      venue: 'ASLATES Conference, Mexico City',
+      year: '2021',
+      link: '#',
     },
   ];
 
   const education = [
     {
-      degree: "MSc European Public Health (Europubhealth+)",
-      schools: "Maastricht University (current) & UCD (completed)",
-      years: "2023–2025",
-      highlight: "Erasmus Mundus Scholar (top 1% worldwide) • First-Class Honours",
+      degree: 'MSc European Public Health (Europubhealth+)',
+      schools: 'Maastricht University (current) & UCD (completed)',
+      years: '2023–2025',
+      highlight: 'Erasmus Mundus Scholar (top 1% worldwide) • First-Class Honours',
     },
     {
-      degree: "BSc Psychology",
-      schools: "Payam Noor University",
-      years: "2017–2022",
-      highlight: "First-Class Honours (17.44/20)",
+      degree: 'BSc Psychology',
+      schools: 'Payam Noor University',
+      years: '2017–2022',
+      highlight: 'First-Class Honours (17.44/20)',
     },
     {
-      degree: "Computer Science Foundation",
-      schools: "Sharif University of Technology & University of Gothenburg",
-      years: "2008–2013",
-      highlight: "Software Engineering & Management track",
+      degree: 'Computer Science Foundation',
+      schools: 'Sharif University of Technology & University of Gothenburg',
+      years: '2008–2013',
+      highlight: 'Software Engineering & Management track',
     },
   ];
 
   const certifications = [
-    "Data Science R Certificate - Johns Hopkins",
-    "AI for Medicine - Stanford (2025)",
-    "Qualitative Research Methods - Emory",
-    "AWS ML Certification (in progress)",
+    'Data Science R Certificate - Johns Hopkins',
+    'AI for Medicine - Stanford (2025)',
+    'Qualitative Research Methods - Emory',
+    'AWS ML Certification (in progress)',
   ];
 
   const researchInterests = [
-    "Digital phenotyping",
-    "Predictive psychiatry",
-    "Sleep-mood dynamics",
-    "ML for mental health",
-    "Explainable AI in healthcare",
-    "Longitudinal data analysis",
+    'Digital phenotyping',
+    'Predictive psychiatry',
+    'Sleep-mood dynamics',
+    'ML for mental health',
+    'Explainable AI in healthcare',
+    'Longitudinal data analysis',
   ];
 
   const chip = (active: boolean) =>
     `px-3 py-1 text-xs font-medium rounded-full transition ${
       active
-        ? "bg-emerald-50 text-emerald-700 ring-1 ring-amber-300/70 dark:bg-emerald-900/30 dark:text-emerald-300"
-        : ""
+        ? 'bg-emerald-50 text-emerald-700 ring-1 ring-amber-300/70 dark:bg-emerald-900/30 dark:text-emerald-300'
+        : ''
     }`;
 
   return (
@@ -220,20 +271,27 @@ export default function HomePage() {
         <aside className="lg:sticky lg:top-8 lg:self-start">
           <section className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
             <div className="flex items-center gap-4">
-              <div className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white font-bold">MM</div>
+              <div className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white font-bold">
+                MM
+              </div>
               <div>
                 <h1 className="text-xl font-extrabold">Mehdi Mirkia</h1>
-                <p className="text-sm text-slate-600 dark:text-slate-300">ML Engineer × Full Stack Dev</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">
+                  ML Engineer × Full Stack Dev
+                </p>
               </div>
             </div>
 
             <p className="mt-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
-              Building interpretable ML models for healthcare. 5+ years software development, 4+ years research experience. Erasmus Mundus Scholar developing production-ready predictive systems.
+              Building interpretable ML models for healthcare. 5+ years software development, 4+ years
+              research experience. Erasmus Mundus Scholar developing production-ready predictive systems.
             </p>
 
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
-              Also published as: M. Mirkialangaroodi •{" "}
-              <a href="#" className="underline hover:text-emerald-600">About variations</a>
+              Also published as: M. Mirkialangaroodi •{' '}
+              <a href="#" className="underline hover:text-emerald-600">
+                About variations
+              </a>
             </p>
 
             <div className="mt-4 flex flex-wrap gap-3">
@@ -259,16 +317,19 @@ export default function HomePage() {
                 Quick skills overview
               </span>
               <div className="inline-flex rounded-full border border-slate-200 bg-white p-1 dark:border-slate-800 dark:bg-slate-900">
-                <button onClick={() => setTrack("phd")} className={chip(track === "phd")}>
+                <button onClick={() => setTrack('phd')} className={chip(track === 'phd')}>
                   Research
                 </button>
-                <button onClick={() => setTrack("eng")} className={chip(track === "eng")}>
+                <button onClick={() => setTrack('eng')} className={chip(track === 'eng')}>
                   Engineering
                 </button>
               </div>
               <ul className="mt-3 space-y-2">
                 {skills[track].map((s) => (
-                  <li key={s} className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+                  <li
+                    key={s}
+                    className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm dark:border-slate-800 dark:bg-slate-900/70"
+                  >
                     {s}
                   </li>
                 ))}
@@ -277,13 +338,26 @@ export default function HomePage() {
 
             {/* Socials */}
             <div className="mt-6 flex gap-3">
-              <a href="mailto:mirkia.mehdi@gmail.com" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
+              <a
+                href="mailto:mirkia.mehdi@gmail.com"
+                className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
+              >
                 Email
               </a>
-              <a href="https://github.com/mehdimkia" target="_blank" rel="noopener noreferrer" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
+              <a
+                href="https://github.com/mehdimkia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
+              >
                 GitHub
               </a>
-              <a href="https://www.linkedin.com/in/mehdimirkia" target="_blank" rel="noopener noreferrer" className="text-sm underline-offset-2 hover:underline hover:text-emerald-600">
+              <a
+                href="https://www.linkedin.com/in/mehdimirkia"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm underline-offset-2 hover:underline hover:text-emerald-600"
+              >
                 LinkedIn
               </a>
             </div>
@@ -294,16 +368,21 @@ export default function HomePage() {
         <div className="space-y-12">
           {/* HERO */}
           <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 via-amber-50 to-white p-8 dark:border-slate-800 dark:from-slate-900 dark:via-amber-900/10 dark:to-slate-950">
-            <h2 className="text-3xl font-black sm:text-4xl">
-              From research to production: ML models that work.
-            </h2>
+            <h2 className="text-3xl font-black sm:text-4xl">From research to production: ML models that work.</h2>
             <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">
-              ML Engineer & Public Health Researcher • 5+ years software development • 4+ years research experience • Erasmus Mundus Scholar • Building predictive models for mental health
+              ML Engineer & Public Health Researcher • 5+ years software development • 4+ years research
+              experience • Erasmus Mundus Scholar • Building predictive models for mental health
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">🇳🇱 Netherlands-based</span>
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">Open to remote</span>
-              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">PhD-ready</span>
+              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                🇳🇱 Netherlands-based
+              </span>
+              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                Open to remote
+              </span>
+              <span className="rounded-full bg-emerald-100 px-3 py-1 text-xs font-medium text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-300">
+                PhD-ready
+              </span>
             </div>
           </section>
 
@@ -313,20 +392,43 @@ export default function HomePage() {
           {/* Projects */}
           <section id="projects">
             <h3 className="text-2xl font-bold">Featured projects</h3>
-            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">Production-ready systems & research implementations</p>
+            <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
+              Production-ready systems & research implementations
+            </p>
             <div className="mt-6 space-y-5">
               {projects.map((p) => (
-                <article key={p.title} className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900/70">
+                <article
+                  key={p.title}
+                  className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900/70"
+                >
                   <div className="border-l-4 border-emerald-500 p-5 sm:p-6">
-                    <h4 className="text-lg font-semibold group-hover:text-emerald-700 dark:group-hover:text-emerald-300">{p.title}</h4>
+                    <h4 className="text-lg font-semibold group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
+                      {p.title}
+                    </h4>
                     <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">{p.blurb}</p>
                     <div className="mt-3 flex flex-wrap gap-2">
                       {p.tags.map((t) => (
-                        <span key={t} className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                        <span
+                          key={t}
+                          className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300"
+                        >
                           {t}
                         </span>
                       ))}
                     </div>
+
+                    {/* NEW: bullets */}
+                    {p.bullets && p.bullets.length > 0 && (
+                      <ul className="mt-3 space-y-1 text-sm text-slate-700 dark:text-slate-300">
+                        {p.bullets.map((b) => (
+                          <li key={b} className="flex gap-2">
+                            <span>✅</span>
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
                     {p.links.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-4">
                         {p.links.map((l) => (
@@ -334,7 +436,7 @@ export default function HomePage() {
                             key={l.href + l.label}
                             href={l.href}
                             className="text-sm font-medium text-emerald-700 hover:underline dark:text-emerald-300"
-                            {...(l.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                            {...(l.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                           >
                             {l.label} →
                           </a>
@@ -345,7 +447,11 @@ export default function HomePage() {
                     {/* Project-specific metrics */}
                     {p.metrics && <MetricsBar items={p.metrics} className="mt-4" size="sm" />}
 
-                    {p.note && <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">{p.note}</p>}
+                    {p.note && (
+                      <p className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                        {p.note}
+                      </p>
+                    )}
                   </div>
                 </article>
               ))}
@@ -353,7 +459,10 @@ export default function HomePage() {
           </section>
 
           {/* Publications */}
-          <section id="publications" className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60">
+          <section
+            id="publications"
+            className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60"
+          >
             <h3 className="text-2xl font-bold">Publications & Presentations</h3>
             <div className="mt-4 space-y-4">
               {publications.map((pub) => (
@@ -364,8 +473,13 @@ export default function HomePage() {
                   <p className="mt-1 text-xs text-slate-600 dark:text-slate-400">
                     {pub.venue} • {pub.year}
                   </p>
-                  {pub.link !== "#" && (
-                    <a href={pub.link} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-600 hover:underline dark:text-emerald-400">
+                  {pub.link !== '#' && (
+                    <a
+                      href={pub.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-emerald-600 hover:underline dark:text-emerald-400"
+                    >
                       View paper →
                     </a>
                   )}
@@ -398,7 +512,10 @@ export default function HomePage() {
             <h3 className="text-xl font-bold">Certifications & Training</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {certifications.map((cert) => (
-                <span key={cert} className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                <span
+                  key={cert}
+                  className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                >
                   {cert}
                 </span>
               ))}
@@ -410,7 +527,10 @@ export default function HomePage() {
             <h3 className="text-xl font-bold">Research interests</h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {researchInterests.map((interest) => (
-                <span key={interest} className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">
+                <span
+                  key={interest}
+                  className="rounded-full bg-emerald-50 px-3 py-1 text-sm text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300"
+                >
                   {interest}
                 </span>
               ))}
@@ -448,10 +568,18 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="mt-6 flex items-center justify-center gap-4">
-                <a href="mailto:mehdimirkia@gmail.com" className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700">
+                <a
+                  href="mailto:mehdimirkia@gmail.com"
+                  className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700"
+                >
                   Email me directly
                 </a>
-                <a href="https://www.linkedin.com/in/mehdimirkia" target="_blank" rel="noopener noreferrer" className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40">
+                <a
+                  href="https://www.linkedin.com/in/mehdimirkia"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40"
+                >
                   Message on LinkedIn
                 </a>
               </div>
