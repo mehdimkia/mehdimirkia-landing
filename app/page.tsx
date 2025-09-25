@@ -45,11 +45,11 @@ function MetricsBar({
       {items.map((m) => (
         <div
           key={m.label}
-          className="rounded-xl border border-slate-200 bg-white/50 text-center dark:border-slate-800"
+          className="rounded-xl border border-slate-200 bg-white/60 text-center dark:border-slate-700 dark:bg-slate-800/60"
         >
           <div className={`${pad}`}>
-            <div className={`${value} text-emerald-600`}>{m.value}</div>
-            <div className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-400`}>
+            <div className={`${value} text-emerald-600 dark:text-emerald-300`}>{m.value}</div>
+            <div className={`${label} mx-auto mt-0.5 flex items-center justify-center gap-1 text-slate-600 dark:text-slate-300`}>
               <span>{m.label}</span>
               {m.tooltip && (
                 <span className="relative inline-flex">
@@ -143,11 +143,7 @@ export default function HomePage() {
       blurb:
         'Built a harmonised EU-27 NUTS-2 panel (NUTS-2016; 240 regions; 6,102 region-years) from Eurostat mortality/population data; estimated absolute β-convergence with TWFE and ran border event-study within countries. Pandemic caused a temporary σ-divergence, then re-convergence by 2023; border regions showed deeper dip and over-rebound.',
       tags: ['R', 'TWFE', 'Event study', 'Eurostat', 'GIS'],
-      links: [
-        // Add links when available:
-        // { href: 'https://your-link-to-paper-or-osf', label: 'Working paper', external: true },
-        // { href: 'https://your-repo-link', label: 'Code (R)', external: true },
-      ],
+      links: [],
       metrics: [
         { value: '240', label: 'Regions' },
         { value: '6,102', label: 'Region-years' },
@@ -399,7 +395,10 @@ export default function HomePage() {
 
                     <div className="mt-3 flex flex-wrap gap-2">
                       {p.tags.map((t) => (
-                        <span key={t} className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:text-slate-300">
+                        <span
+                          key={t}
+                          className="rounded-full border border-slate-300 px-2 py-0.5 text-xs text-slate-600 dark:border-slate-700 dark:bg-slate-800/50 dark:text-slate-200"
+                        >
                           {t}
                         </span>
                       ))}
