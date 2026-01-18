@@ -109,7 +109,7 @@ export default function HomePage() {
   /* ---------- Current Roles ---------- */
   const currentRoles: Role[] = [
     {
-      title: 'Tech Lead',
+      title: 'Software Engineer',
       organization: 'Sendent B.V.',
       period: 'December 2025 – Present',
       location: 'Netherlands',
