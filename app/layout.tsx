@@ -4,34 +4,34 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://mehdimirkia.com"),
   title: {
-    default: "Mehdi Mirkia — Public Health × AI",
+    default: "Mehdi Mirkia — Software Engineer · PhD Researcher",
     template: "%s · Mehdi Mirkia",
   },
   description:
-    "Portfolio showcasing machine learning + public health projects, including depression-risk modeling and full-stack demos.",
+    "Software Engineer at Sendent B.V. and PhD Candidate at Maastricht University. Research in sleep-depression relationships and data governance solutions.",
   icons: { icon: "/favicon.ico" },
   openGraph: {
     type: "website",
     url: "https://mehdimirkia.com",
     siteName: "Mehdi Mirkia",
-    title: "Mehdi Mirkia — Public Health × AI",
+    title: "Mehdi Mirkia — Software Engineer · PhD Researcher",
     description:
-      "Portfolio showcasing ML + public health projects, including depression-risk modeling and full-stack demos.",
+      "Software Engineer at Sendent B.V. and PhD Candidate at Maastricht University.",
     images: [
       {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Mehdi Mirkia — Public Health × AI",
+        alt: "Mehdi Mirkia — Software Engineer · PhD Researcher",
       },
     ],
     locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mehdi Mirkia — Public Health × AI",
+    title: "Mehdi Mirkia — Software Engineer · PhD Researcher",
     description:
-      "Portfolio showcasing ML + public health projects, including depression-risk modeling and full-stack demos.",
+      "Software Engineer at Sendent B.V. and PhD Candidate at Maastricht University.",
     images: ["/og.png"],
   },
   alternates: { canonical: "/" },
@@ -72,9 +72,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               "@type": "Person",
               name: "Mehdi Mirkia",
               url: "https://mehdimirkia.com",
-              jobTitle: "Machine Learning / Public Health",
+              jobTitle: "Software Engineer & PhD Researcher",
+              worksFor: [
+                {
+                  "@type": "Organization",
+                  name: "Sendent B.V.",
+                },
+                {
+                  "@type": "EducationalOrganization",
+                  name: "Maastricht University",
+                },
+              ],
               sameAs: [
-                "https://www.linkedin.com/in/mehdimirkia",
+                "https://www.linkedin.com/in/mirkia",
                 "https://github.com/mehdimkia",
               ],
             }),

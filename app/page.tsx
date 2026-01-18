@@ -82,62 +82,30 @@ export default function HomePage() {
 
   const skills: Record<Track, string[]> = {
     phd: [
-      '📊 Longitudinal cohort analysis (N=9,000+)',
-      '📈 Cox PH & survival analysis with splines',
-      '🧠 Mental health epidemiology & RCT analysis',
-      '📝 Manuscript in preparation for peer review',
-      '🔬 R, Python, REDCap, Git version control',
+      '🔬 Sleep-depression longitudinal analysis',
+      '📊 Cox PH & survival analysis with splines',
+      '📈 Cohort studies (N=9,000+)',
+      '🧠 Mental health epidemiology',
+      '📝 Academic writing & peer review',
     ],
     eng: [
-      '🚀 FastAPI + Docker deployment (live on Azure Container Apps)',
-      '⚙️ CI/CD: GitHub Actions → GHCR → ACA',
-      '🔐 x-api-key auth + CORS allow-list',
-      '🌐 Next.js on Vercel (server route proxy)',
-      '🤖 ML (XGBoost, AUROC 0.71, SHAP)',
+      '🏢 Data governance & GDPR compliance',
+      '⚙️ Enterprise software architecture',
+      '🚀 Full-stack development (Next.js, FastAPI)',
+      '🔐 Security & access control systems',
+      '☁️ Cloud deployment (Azure, Docker, CI/CD)',
     ],
   };
 
   /* ---------- Personal metrics ---------- */
   const personalMetrics: Metric[] = [
-    { value: '9,000+', label: 'Cohort analyzed', tooltip: 'The Maastricht Study participants' },
-    { value: '5+ yrs', label: 'Software dev', tooltip: 'Full-stack development experience' },
-    { value: '0.71', label: 'AUROC achieved', tooltip: 'Depression prediction model performance' },
-    { value: '2', label: "Master's degrees", tooltip: 'MPH (UCD) + MSc Public Health (Maastricht, ongoing)' },
-  ];
-
-  /* ---------- Deprisk project metrics ---------- */
-  const depriskMetrics: Metric[] = [
-    { value: '0.71', label: 'AUROC', tooltip: 'Area under the ROC curve on held-out cohort' },
-    { value: '9,000+', label: 'Participants', tooltip: 'Sample size from The Maastricht Study' },
-    { value: '7 years', label: 'Follow-up', tooltip: 'Longitudinal observation horizon' },
+    { value: '9,000+', label: 'Research participants', tooltip: 'The Maastricht Study cohort' },
+    { value: '5+ yrs', label: 'Software development', tooltip: 'Full-stack and ML engineering' },
+    { value: '4+ yrs', label: 'Research experience', tooltip: 'Epidemiology and mental health' },
+    { value: '2', label: "Master's degrees", tooltip: 'MPH (UCD) + MSc Public Health (Maastricht)' },
   ];
 
   const projects: Project[] = [
-    {
-      title: 'Maastricht Deprisk – ML Depression Risk Predictor',
-      live: true,
-      blurb:
-        'End-to-end ML pipeline with FastAPI backend + Next.js frontend. Containerized service runs on Azure Container Apps; live, non-clinical demo uses a tuned XGBoost model (AUROC 0.71) trained on 9,000+ participants from The Maastricht Study.',
-      tags: [
-        'XGBoost', 'FastAPI', 'Next.js', 'Docker', 'Azure Container Apps', 'GitHub Actions', 'GHCR', 'Vercel', 'SHAP',
-      ],
-      primary: {
-        href: 'https://maastrichtdeprisk.mehdimirkia.com/',
-        label: 'Open live demo',
-        external: true,
-      },
-      links: [
-        { href: 'https://github.com/mehdimkia/maastrichtDeprisk', label: 'GitHub', external: true },
-      ],
-      bullets: [
-        'CI/CD: Actions builds → pushes to GHCR → deploys to ACA',
-        'Scale-to-zero, health checks, and Log Analytics for observability',
-        'x-api-key auth with server-side proxy in Next.js (no key in browser)',
-        'CORS allow-list; domain split ready (app/api subdomains)',
-      ],
-      note: 'Research prototype for educational purposes – not for clinical use',
-      metrics: depriskMetrics,
-    },
     {
       title: 'EU-27 Border vs Non-border Life-Expectancy Convergence (1995–2023)',
       blurb:
@@ -157,6 +125,24 @@ export default function HomePage() {
       ],
     },
     {
+      title: 'Sleep ↔ Depression Longitudinal Analysis (Thesis)',
+      blurb:
+        'Seven-year cohort study using Cox PH models with restricted cubic splines to capture non-linear effects of sleep duration on depression risk. Manuscript in preparation.',
+      tags: ['Cox PH', 'R', 'Survival Analysis', 'Splines'],
+      links: [],
+    },
+    {
+      title: 'Maastricht Deprisk – Technical ML Demo',
+      blurb:
+        'End-to-end ML deployment pipeline demonstrating FastAPI backend + Next.js frontend integration. Containerized service on Azure Container Apps uses XGBoost for predictive modeling.',
+      tags: ['XGBoost', 'FastAPI', 'Next.js', 'Docker', 'Azure Container Apps'],
+      links: [
+        { href: 'https://maastrichtdeprisk.mehdimirkia.com/', label: 'View demo', external: true },
+        { href: 'https://github.com/mehdimkia/maastrichtDeprisk', label: 'GitHub', external: true },
+      ],
+      note: 'Independent technical project for learning purposes. Not part of official research or clinical practice.',
+    },
+    {
       title: 'Social Platform – Khaterak',
       blurb:
         'Co-founded and developed social app serving 10,000+ MAU. Built scalable backend with OAuth authentication and optimized performance by 40%.',
@@ -165,16 +151,9 @@ export default function HomePage() {
       note: '2015-2017: Full-stack development & system architecture',
     },
     {
-      title: 'Sleep ↔ Depression Longitudinal Analysis (Thesis)',
-      blurb:
-        'Seven-year cohort study using Cox PH models with restricted cubic splines to capture non-linear effects of sleep duration on depression risk. Manuscript in preparation.',
-      tags: ['Cox PH', 'R', 'Survival Analysis', 'Splines'],
-      links: [],
-    },
-    {
       title: 'Cohort Insights Dashboard',
       blurb:
-        'Interactive Power BI dashboard visualizing cohort characteristics and ML model performance metrics for The Maastricht Study.',
+        'Interactive Power BI dashboard visualizing cohort characteristics and study metrics for The Maastricht Study.',
       tags: ['Power BI', 'Data Viz', 'ETL'],
       links: [],
     },
@@ -182,18 +161,26 @@ export default function HomePage() {
 
   const publications = [
     {
-      role: 'Working paper',
+      role: 'Under Review',
       title:
-        'Further apart, closer again? Pandemic-era divergence and resilience in EU-27 border vs non-border life expectancy, 1995–2023',
-      venue: 'v0.18 (2025)',
+        'Pandemic-era divergence and resilience in EU-27 border vs non-border life expectancy, 1995–2023',
+      venue: 'Mirkia, M., & Hrzic, R.',
       year: '2025',
       link: '#',
     },
     {
       role: 'In Preparation',
       title:
-        'Sleep Duration and Sleep Fragmentation as Predictors of Incident Depressive Symptoms',
-      venue: 'Target: Journal of Sleep Health',
+        'Sleep Duration and Sleep Breaks as Predictors of Incident Depressive Symptoms: A Longitudinal Analysis of Objectively Measured Sleep in The Maastricht Study',
+      venue: 'Target: Sleep Health',
+      year: '2025',
+      link: '#',
+    },
+    {
+      role: 'Poster Presentation',
+      title:
+        'Sleep Duration and Sleep Breaks as Predictors of Incident Depressive Symptoms',
+      venue: 'European Conference on Mental Health (ECMH), Antwerp',
       year: '2025',
       link: '#',
     },
@@ -203,13 +190,6 @@ export default function HomePage() {
       venue: '1st Int. Conf. Psychology & Social Sciences, Babol',
       year: '2022',
       link: 'https://civilica.com/doc/1698998',
-    },
-    {
-      role: 'Invited Talk',
-      title: 'New Concepts of Schema Therapy',
-      venue: 'ASLATES Conference, Mexico City',
-      year: '2021',
-      link: '#',
     },
   ];
 
@@ -267,13 +247,14 @@ export default function HomePage() {
               <div className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white font-bold">MM</div>
               <div>
                 <h1 className="text-xl font-extrabold">Mehdi Mirkia</h1>
-                <p className="text-sm text-slate-600 dark:text-slate-300">ML Engineer × Full Stack Dev</p>
+                <p className="text-sm text-slate-600 dark:text-slate-300">Software Engineer · PhD Researcher</p>
               </div>
             </div>
 
             <p className="mt-4 text-sm leading-6 text-slate-700 dark:text-slate-300">
-              Building interpretable ML models for healthcare. 5+ years software development, 4+ years research experience.
-              Erasmus Mundus Scholar developing production-ready predictive systems.
+              Tech Lead at Sendent B.V. building data governance solutions.
+              PhD Candidate at Maastricht University researching sleep-depression relationships.
+              5+ years software development, 4+ years research. Erasmus Mundus Scholar.
             </p>
 
             <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
@@ -283,12 +264,10 @@ export default function HomePage() {
 
             <div className="mt-4 flex flex-wrap gap-3">
               <a
-                href="https://github.com/mehdimkia/maastrichtDeprisk"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#current-roles"
                 className="rounded-md bg-gradient-to-r from-emerald-600 to-teal-600 px-4 py-2 text-sm font-semibold text-white transition hover:from-emerald-700 hover:to-teal-700"
               >
-                View on GitHub
+                Current roles
               </a>
               <a
                 href="#projects"
@@ -335,33 +314,80 @@ export default function HomePage() {
         <div className="space-y-12">
           {/* HERO */}
           <section className="rounded-2xl border border-slate-200 bg-gradient-to-r from-emerald-50 via-amber-50 to-white p-8 dark:border-slate-800 dark:from-slate-900 dark:via-amber-900/10 dark:to-slate-950">
-            <h2 className="text-3xl font-black sm:text-4xl">From research to production: ML models that work.</h2>
+            <h2 className="text-3xl font-black sm:text-4xl">Research-driven engineering. Engineering-informed research.</h2>
             <p className="mt-3 max-w-2xl text-slate-700 dark:text-slate-300">
-              ML Engineer & Public Health Researcher • 5+ years software development • 4+ years research experience •
-              Erasmus Mundus Scholar • Building predictive models for mental health
+              Software Engineer & PhD Researcher • Tech Lead at Sendent B.V. • Doctoral Candidate at Maastricht University •
+              Erasmus Mundus Scholar
             </p>
-            {/* HERO CTAs */}
             <div className="mt-5 flex flex-wrap gap-3">
               <a
-                href="https://maastrichtdeprisk.mehdimirkia.com/"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#research"
                 className="inline-flex items-center rounded-md bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
               >
-                Try the live demo
-                <svg viewBox="0 0 20 20" aria-hidden="true" fill="currentColor" className="ml-1 h-4 w-4">
-                  <path d="M11 3h6v6h-2V6.414l-7.293 7.293-1.414-1.414L13.586 5H11V3z" />
-                  <path d="M5 5h4v2H7v6h6v-2h2v4H5V5z" />
-                </svg>
+                Research
               </a>
               <a
-                href="https://github.com/mehdimkia/maastrichtDeprisk"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#projects"
                 className="inline-flex items-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/50"
               >
-                View code
+                Projects
               </a>
+              <a
+                href="#contact"
+                className="inline-flex items-center rounded-md border border-slate-300 px-4 py-2 text-sm font-semibold hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/50"
+              >
+                Contact
+              </a>
+            </div>
+          </section>
+
+          {/* Current Roles */}
+          <section id="current-roles">
+            <h3 className="text-2xl font-bold">Current</h3>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+                <div className="flex items-start gap-3">
+                  <div className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">Tech Lead</h4>
+                    <p className="text-sm text-emerald-600 dark:text-emerald-400">Sendent B.V.</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+                  December 2025 – Present · Netherlands
+                </p>
+                <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                  Developing compliance and data governance solutions for enterprise environments, with focus on data sovereignty, security, and GDPR compliance.
+                </p>
+              </div>
+
+              <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
+                <div className="flex items-start gap-3">
+                  <div className="grid h-10 w-10 flex-shrink-0 place-items-center rounded-lg bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-300">
+                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="font-semibold">PhD Candidate</h4>
+                    <p className="text-sm text-amber-600 dark:text-amber-400">Maastricht University</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+                  January 2026 – 2030 · CAPHRI Institute
+                </p>
+                <p className="mt-2 text-sm text-slate-700 dark:text-slate-300">
+                  Researching the multidimensional relationships between objectively measured sleep characteristics and depressive symptoms using longitudinal data from The Maastricht Study.
+                </p>
+                <div className="mt-3 text-xs text-slate-500 dark:text-slate-400">
+                  <p>Supervisors: Dr. Annemarie Koster & Dr. Ree Meertens</p>
+                  <p>Department of Social Medicine · Health Inequities and Societal Participation</p>
+                </div>
+              </div>
             </div>
           </section>
 
@@ -370,9 +396,9 @@ export default function HomePage() {
 
           {/* Projects */}
           <section id="projects">
-            <h3 className="text-2xl font-bold">Featured projects</h3>
+            <h3 className="text-2xl font-bold">Selected projects</h3>
             <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-              Production-ready systems & research implementations
+              Academic research and technical implementations
             </p>
             <div className="mt-6 space-y-5">
               {projects.map((p) => (
@@ -455,9 +481,9 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* Publications */}
-          <section id="publications" className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60">
-            <h3 className="text-2xl font-bold">Publications & Presentations</h3>
+          {/* Publications / Research */}
+          <section id="research" className="rounded-2xl border border-slate-200 bg-slate-50/70 p-6 dark:border-slate-800 dark:bg-slate-900/60">
+            <h3 className="text-2xl font-bold">Research</h3>
             <div className="mt-4 space-y-4">
               {publications.map((pub) => (
                 <div key={pub.title} className="border-l-2 border-emerald-500 pl-4">
@@ -528,31 +554,19 @@ export default function HomePage() {
           {/* Contact */}
           <section id="contact" className="pb-10">
             <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900/60">
-              <h3 className="mb-6 text-center text-xl font-semibold">Let&apos;s connect</h3>
-              <div className="grid gap-4 md:grid-cols-2">
-                <div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
-                  <h4 className="flex items-center gap-2 font-semibold">💻 For Tech Teams</h4>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">ML Engineer / Full-stack roles</p>
-                  <div className="mt-3 space-y-2">
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Download ML/Data Science CV</a>
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Download Software Dev CV</a>
-                  </div>
-                </div>
-                <div className="rounded-xl border border-slate-200 p-4 dark:border-slate-700">
-                  <h4 className="flex items-center gap-2 font-semibold">🎓 For Research Groups</h4>
-                  <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">PhD positions & collaborations</p>
-                  <div className="mt-3 space-y-2">
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Download Academic CV</a>
-                    <a href="#" className="block text-sm text-emerald-600 hover:underline dark:text-emerald-400">→ Research statement</a>
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 flex items-center justify-center gap-4">
-                <a href="mailto:mehdimirkia@gmail.com" className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700">
-                  Email me directly
+              <h3 className="mb-2 text-center text-xl font-semibold">Get in touch</h3>
+              <p className="mb-6 text-center text-sm text-slate-600 dark:text-slate-300">
+                For professional inquiries or research collaboration
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-4">
+                <a href="mailto:mirkia.mehdi@gmail.com" className="rounded-md bg-emerald-600 px-6 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-700">
+                  Email
                 </a>
                 <a href="https://www.linkedin.com/in/mirkia" target="_blank" rel="noopener noreferrer" className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40">
-                  Message on LinkedIn
+                  LinkedIn
+                </a>
+                <a href="https://github.com/mehdimkia" target="_blank" rel="noopener noreferrer" className="rounded-md border border-slate-300 px-6 py-2 text-sm font-medium transition-colors hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800/40">
+                  GitHub
                 </a>
               </div>
             </div>
