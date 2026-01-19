@@ -126,7 +126,6 @@ export default function HomePage() {
       location: 'CAPHRI Institute',
       description: 'Researching the multidimensional relationships between objectively measured sleep characteristics and depressive symptoms.',
       details: [
-        'Supervisors: Dr. Annemarie Koster & Dr. Ree Meertens',
         'Department of Social Medicine',
         'Research Line: Health Inequities and Societal Participation',
       ],
